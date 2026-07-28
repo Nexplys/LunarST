@@ -4,6 +4,8 @@
 #include "Abilities/Tasks/AbilityTask_ApplyRootMotionConstantForce.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/RootMotionSource.h"
+#include "Abilities/Tasks/AbilityTask_PlayMontageAndWait.h"
+#include "Animation/AnimMontage.h"
 
 ULunarGameplayAbility_Dodge::ULunarGameplayAbility_Dodge()
 {
@@ -61,6 +63,36 @@ void ULunarGameplayAbility_Dodge::ActivateAbility(
             true
         );
         return;
+    }
+
+    if (DodgeMontage)
+    {
+        const float MontageLength =
+            DodgeMontage->GetPlayLength();
+
+        const float MontagePlayRate =
+            MontageLength > KINDA_SMALL_NUMBER
+                ? MontageLength / DodgeDuration
+                : 1.0f;
+
+        UAbilityTask_PlayMontageAndWait* MontageTask =
+            UAbilityTask_PlayMontageAndWait
+            ::CreatePlayMontageAndWaitProxy(
+                this,
+                TEXT("DodgeMontage"),
+                DodgeMontage,
+                MontagePlayRate,
+                NAME_None,
+                true,
+                0.0f,
+                0.0f,
+                false
+            );
+
+        if (MontageTask)
+        {
+            MontageTask->ReadyForActivation();
+        }
     }
 
     FVector DodgeDirection =

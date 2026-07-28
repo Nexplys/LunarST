@@ -17,4 +17,8 @@ namespace LunarGameplayTags
 	LUNARST_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(
 		Cooldown_Movement_Dodge
 	);
+
+	LUNARST_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(
+	State_Combat_Invulnerable
+);
 }

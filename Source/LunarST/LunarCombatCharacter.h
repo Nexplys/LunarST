@@ -23,7 +23,13 @@ public:
 	const ULunarAttributeSet* GetAttributeSet() const;
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	bool TryActivateDodge();
-
+	virtual float TakeDamage(
+		float DamageAmount,
+		const FDamageEvent& DamageEvent,
+		AController* EventInstigator,
+		AActor* DamageCauser
+	) override;
+	
 protected:
 	virtual void BeginPlay() override;
 
