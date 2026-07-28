@@ -1,5 +1,4 @@
 ﻿#include "LunarGameplayTags.h"
-#include "C:\Users\nexpl\Desktop\Git\LunarST\Intermediate\Build\Win64\x64\LunarSTEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h"
 
 namespace LunarGameplayTags
 {
