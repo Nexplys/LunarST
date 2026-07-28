@@ -22,6 +22,8 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	const ULunarAttributeSet* GetAttributeSet() const;
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	bool TryActivateAstralBolt();
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	bool TryActivateDodge();
 	virtual float TakeDamage(
 		float DamageAmount,
@@ -41,16 +43,23 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
 	UPROPERTY(
-	VisibleAnywhere,
-	BlueprintReadOnly,
-	Category = "Abilities"
-)
+		VisibleAnywhere,
+		BlueprintReadOnly,
+		Category = "Abilities"
+	)
 	TObjectPtr<ULunarAttributeSet> AttributeSet;
 	
 	UPROPERTY(
-	EditDefaultsOnly,
-	BlueprintReadOnly,
-	Category = "Abilities|Startup"
-)
+		EditDefaultsOnly,
+		BlueprintReadOnly,
+		Category = "Abilities|Startup"
+	)
 	TSubclassOf<UGameplayAbility> DodgeAbilityClass;
+
+	UPROPERTY(
+		EditDefaultsOnly,
+		BlueprintReadOnly,
+		Category = "Abilities|Startup"
+	)
+	TSubclassOf<UGameplayAbility> AstralBoltAbilityClass;
 };

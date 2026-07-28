@@ -20,5 +20,17 @@ namespace LunarGameplayTags
 
 	LUNARST_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(
 	State_Combat_Invulnerable
-);
+	);
+
+	LUNARST_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(
+	Input_PrimarySpell
+	);
+
+	LUNARST_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(
+		Ability_Astromancy_AstralBolt
+	);
+
+	LUNARST_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(
+		Cooldown_Astromancy_AstralBolt
+	);
 }
