@@ -25,19 +25,12 @@ public class LunarST : ModuleRules
 
 		PublicIncludePaths.AddRange(new string[] {
 			"LunarST",
-			"LunarST/Variant_Platforming",
-			"LunarST/Variant_Platforming/Animation",
 			"LunarST/Variant_Combat",
 			"LunarST/Variant_Combat/AI",
 			"LunarST/Variant_Combat/Animation",
 			"LunarST/Variant_Combat/Gameplay",
 			"LunarST/Variant_Combat/Interfaces",
 			"LunarST/Variant_Combat/UI",
-			"LunarST/Variant_SideScrolling",
-			"LunarST/Variant_SideScrolling/AI",
-			"LunarST/Variant_SideScrolling/Gameplay",
-			"LunarST/Variant_SideScrolling/Interfaces",
-			"LunarST/Variant_SideScrolling/UI"
 		});
 
 		// Uncomment if you are using Slate UI
