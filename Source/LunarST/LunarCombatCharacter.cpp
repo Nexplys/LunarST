@@ -6,6 +6,8 @@
 #include "LunarAttributeSet.h"
 #include "Abilities/GameplayAbility.h"
 #include "GameplayAbilitySpec.h"
+#include "LunarGameplayTags.h"
+#include "Engine/DamageEvents.h"
 
 ALunarCombatCharacter::ALunarCombatCharacter()
 {
@@ -63,5 +65,30 @@ bool ALunarCombatCharacter::TryActivateDodge()
 
 	return AbilitySystemComponent->TryActivateAbilityByClass(
 		DodgeAbilityClass
+	);
+}
+
+float ALunarCombatCharacter::TakeDamage(
+	float DamageAmount,
+	const FDamageEvent& DamageEvent,
+	AController* EventInstigator,
+	AActor* DamageCauser
+)
+{
+	if (
+		AbilitySystemComponent &&
+		AbilitySystemComponent->HasMatchingGameplayTag(
+			LunarGameplayTags::State_Combat_Invulnerable
+		)
+	)
+	{
+		return 0.0f;
+	}
+
+	return Super::TakeDamage(
+		DamageAmount,
+		DamageEvent,
+		EventInstigator,
+		DamageCauser
 	);
 }

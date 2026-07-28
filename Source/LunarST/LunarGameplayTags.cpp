@@ -25,4 +25,10 @@ namespace LunarGameplayTags
 		"Cooldown.Movement.Dodge",
 		"Prevents the dodge ability from being activated repeatedly."
 	);
+
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(
+	State_Combat_Invulnerable,
+	"State.Combat.Invulnerable",
+	"Prevents the character from receiving damage."
+);
 }
