@@ -1,8 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-#include "LunarGameplayAbility_AstralBolt.h"
-#include "LunarGameplayTags.h"
-#include "LunarAstralProjectile.h"
+#include "AbilitySystem/Abilities/Astromancy/LunarGameplayAbility_AstralBolt.h"
+#include "AbilitySystem/Tags/LunarGameplayTags.h"
+#include "Combat/Projectiles/LunarAstralProjectile.h"
 #include "Engine/World.h"
 #include "GameFramework/Character.h"
 

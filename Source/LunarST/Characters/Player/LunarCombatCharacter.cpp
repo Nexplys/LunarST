@@ -1,12 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "LunarCombatCharacter.h"
+#include "Characters/Player/LunarCombatCharacter.h"
 #include "AbilitySystemComponent.h"
-#include "LunarAttributeSet.h"
+#include "AbilitySystem/Attributes/LunarAttributeSet.h"
 #include "Abilities/GameplayAbility.h"
 #include "GameplayAbilitySpec.h"
-#include "LunarGameplayTags.h"
+#include "AbilitySystem/Tags/LunarGameplayTags.h"
 #include "Engine/DamageEvents.h"
 
 ALunarCombatCharacter::ALunarCombatCharacter()

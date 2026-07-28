@@ -1,4 +1,4 @@
-﻿#include "LunarGameplayTags.h"
+﻿#include "AbilitySystem/Tags/LunarGameplayTags.h"
 
 namespace LunarGameplayTags
 {

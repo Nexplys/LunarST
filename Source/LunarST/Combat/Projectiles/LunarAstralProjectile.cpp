@@ -1,8 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "LunarAstralProjectile.h"
-
+#include "Combat/Projectiles/LunarAstralProjectile.h"
 #include "CombatDamageable.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
