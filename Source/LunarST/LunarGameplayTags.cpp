@@ -30,5 +30,23 @@ namespace LunarGameplayTags
 	State_Combat_Invulnerable,
 	"State.Combat.Invulnerable",
 	"Prevents the character from receiving damage."
-);
+	);
+
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(
+	Input_PrimarySpell,
+	"Input.PrimarySpell",
+	"Input used to cast the currently equipped primary spell."
+	);
+
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(
+		Ability_Astromancy_AstralBolt,
+		"Ability.Astromancy.AstralBolt",
+		"Identifies the basic astral bolt ability."
+	);
+
+	UE_DEFINE_GAMEPLAY_TAG_COMMENT(
+		Cooldown_Astromancy_AstralBolt,
+		"Cooldown.Astromancy.AstralBolt",
+		"Prevents the astral bolt from being cast repeatedly."
+	);
 }

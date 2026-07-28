@@ -31,16 +31,32 @@ void ALunarCombatCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
-	if (HasAuthority() && DodgeAbilityClass)
+	
+	if (HasAuthority())
 	{
-		const FGameplayAbilitySpec DodgeAbilitySpec(
-			DodgeAbilityClass,
-			1
-		);
+		if (DodgeAbilityClass)
+		{
+			const FGameplayAbilitySpec DodgeAbilitySpec(
+				DodgeAbilityClass,
+				1
+			);
 
-		AbilitySystemComponent->GiveAbility(
-			DodgeAbilitySpec
-		);
+			AbilitySystemComponent->GiveAbility(
+				DodgeAbilitySpec
+			);
+		}
+
+		if (AstralBoltAbilityClass)
+		{
+			const FGameplayAbilitySpec AstralBoltAbilitySpec(
+				AstralBoltAbilityClass,
+				1
+			);
+
+			AbilitySystemComponent->GiveAbility(
+				AstralBoltAbilitySpec
+			);
+		}
 	}
 }
 
@@ -65,6 +81,18 @@ bool ALunarCombatCharacter::TryActivateDodge()
 
 	return AbilitySystemComponent->TryActivateAbilityByClass(
 		DodgeAbilityClass
+	);
+}
+
+bool ALunarCombatCharacter::TryActivateAstralBolt()
+{
+	if (!AbilitySystemComponent || !AstralBoltAbilityClass)
+	{
+		return false;
+	}
+
+	return AbilitySystemComponent->TryActivateAbilityByClass(
+		AstralBoltAbilityClass
 	);
 }
 
