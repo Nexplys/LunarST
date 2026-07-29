@@ -4,7 +4,7 @@
 
 LunarST is a solo-developed isometric action RPG prototype built with Unreal Engine 5.
 
-Set in a new archipelago within the lunarpunk universe of *Myr-Lanterne*, the game follows an astromancer and their shapeshifting nebula companion through a world of eternal night. Fast, responsive combat combines stellar magic, exploration and secrets whose discovery may completely change how the world is understood.
+Set in a new archipelago within the lunarpunk universe of a novel I am currently writing, the game follows an astromancer and their shapeshifting nebula companion through a world of eternal night. Fast, responsive combat combines stellar magic, exploration and secrets whose discovery may completely change how the world is understood.
 
 The project currently focuses on building and validating its core gameplay foundations before defining the scope of a complete game.
 
@@ -13,8 +13,8 @@ The project currently focuses on building and validating its core gameplay found
 - Fast isometric combat inspired by *Tunic*, *Hades* and *Windblown*
 - Responsive movement with directional dodging and soft aim assistance
 - Several astromancy playstyles, beginning with:
-  - **Sidereal Blade** — aggressive close-range combat
-  - **Stellar Shards** — fast and mobile ranged attacks
+  - **Sidereal Blade** - aggressive close-range combat
+  - **Stellar Shards** - fast and mobile ranged attacks
 - A branching, snowflake-shaped progression system powered by gathered light
 - A nebula companion intended to interact with and transform the player's abilities
 - A compact, interconnected world focused on exploration, shortcuts and hidden rules
