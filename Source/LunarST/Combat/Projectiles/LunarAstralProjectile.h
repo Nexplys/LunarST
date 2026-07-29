@@ -2,10 +2,11 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+ #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "LunarAstralProjectile.generated.h"
 
+class UGameplayEffect;
 class USphereComponent;
 class UStaticMeshComponent;
 class UProjectileMovementComponent;
@@ -41,8 +42,20 @@ protected:
 		BlueprintReadOnly,
 		Category = "Projectile|Components"
 	)
-	TObjectPtr<UProjectileMovementComponent> ProjectileMovementComponent;
+	TObjectPtr<UProjectileMovementComponent>
+	ProjectileMovementComponent;
 
+	UPROPERTY(
+		EditDefaultsOnly,
+		BlueprintReadOnly,
+		Category = "Projectile|Damage"
+	)
+	TSubclassOf<UGameplayEffect> DamageEffectClass;
+
+	/*
+	 * Temporary damage value used by enemies inherited
+	 * from Unreal Engine's Combat variant.
+	 */
 	UPROPERTY(
 		EditDefaultsOnly,
 		BlueprintReadOnly,
