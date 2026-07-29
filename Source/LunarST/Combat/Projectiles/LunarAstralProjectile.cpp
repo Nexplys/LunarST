@@ -1,11 +1,13 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Combat/Projectiles/LunarAstralProjectile.h"
+
+#include "AbilitySystemComponent.h"
+#include "AbilitySystemGlobals.h"
 #include "CombatDamageable.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "GameplayEffect.h"
+#include "GameplayEffectTypes.h"
 
 ALunarAstralProjectile::ALunarAstralProjectile()
 {
@@ -23,7 +25,9 @@ ALunarAstralProjectile::ALunarAstralProjectile()
 	CollisionComponent->SetCollisionEnabled(
 		ECollisionEnabled::QueryAndPhysics
 	);
-	CollisionComponent->SetCollisionObjectType(ECC_WorldDynamic);
+	CollisionComponent->SetCollisionObjectType(
+		ECC_WorldDynamic
+	);
 	CollisionComponent->SetCollisionResponseToAllChannels(
 		ECR_Ignore
 	);
@@ -67,9 +71,11 @@ ALunarAstralProjectile::ALunarAstralProjectile()
 	ProjectileMovementComponent->MaxSpeed = 1200.0f;
 	ProjectileMovementComponent->Velocity =
 		FVector::ForwardVector * 1200.0f;
-	ProjectileMovementComponent->bRotationFollowsVelocity = true;
+	ProjectileMovementComponent->bRotationFollowsVelocity =
+		true;
 	ProjectileMovementComponent->bShouldBounce = false;
-	ProjectileMovementComponent->ProjectileGravityScale = 0.0f;
+	ProjectileMovementComponent->ProjectileGravityScale =
+		0.0f;
 }
 
 void ALunarAstralProjectile::BeginPlay()
@@ -111,34 +117,92 @@ void ALunarAstralProjectile::HandleProjectileHit(
 		return;
 	}
 
-	if (ICombatDamageable* Damageable =
-		Cast<ICombatDamageable>(OtherActor))
-	{
-		FVector DamageDirection =
-			ProjectileMovementComponent->Velocity.GetSafeNormal();
+	bool bDamageApplied = false;
 
-		if (DamageDirection.IsNearlyZero())
-		{
-			DamageDirection = -Hit.ImpactNormal;
-		}
-
-		const FVector DamageImpulse =
-			DamageDirection * KnockbackImpulse +
-			FVector::UpVector * LaunchImpulse;
-
-		AActor* DamageCauser = GetInstigator();
-
-		if (!DamageCauser)
-		{
-			DamageCauser = GetOwner();
-		}
-
-		Damageable->ApplyDamage(
-			Damage,
-			DamageCauser ? DamageCauser : this,
-			Hit.ImpactPoint,
-			DamageImpulse
+	UAbilitySystemComponent* SourceAbilitySystem =
+		UAbilitySystemGlobals::
+		GetAbilitySystemComponentFromActor(
+			GetInstigator()
 		);
+
+	UAbilitySystemComponent* TargetAbilitySystem =
+		UAbilitySystemGlobals::
+		GetAbilitySystemComponentFromActor(
+			OtherActor
+		);
+
+	if (
+		SourceAbilitySystem &&
+		TargetAbilitySystem &&
+		DamageEffectClass
+	)
+	{
+		FGameplayEffectContextHandle EffectContext =
+			SourceAbilitySystem->MakeEffectContext();
+
+		EffectContext.AddSourceObject(this);
+		EffectContext.AddHitResult(Hit);
+
+		FGameplayEffectSpecHandle EffectSpec =
+			SourceAbilitySystem->MakeOutgoingSpec(
+				DamageEffectClass,
+				1.0f,
+				EffectContext
+			);
+
+		if (EffectSpec.IsValid())
+		{
+			SourceAbilitySystem
+				->ApplyGameplayEffectSpecToTarget(
+					*EffectSpec.Data.Get(),
+					TargetAbilitySystem
+				);
+
+			bDamageApplied = true;
+		}
+	}
+
+	/*
+	 * Temporary compatibility path for enemies inherited
+	 * from Unreal Engine's Combat variant.
+	 */
+	if (!bDamageApplied)
+	{
+		if (
+			ICombatDamageable* Damageable =
+				Cast<ICombatDamageable>(OtherActor)
+		)
+		{
+			FVector DamageDirection =
+				ProjectileMovementComponent
+					->Velocity
+					.GetSafeNormal();
+
+			if (DamageDirection.IsNearlyZero())
+			{
+				DamageDirection = -Hit.ImpactNormal;
+			}
+
+			const FVector DamageImpulse =
+				DamageDirection * KnockbackImpulse +
+				FVector::UpVector * LaunchImpulse;
+
+			AActor* DamageCauser = GetInstigator();
+
+			if (!DamageCauser)
+			{
+				DamageCauser = GetOwner();
+			}
+
+			Damageable->ApplyDamage(
+				Damage,
+				DamageCauser
+					? DamageCauser
+					: this,
+				Hit.ImpactPoint,
+				DamageImpulse
+			);
+		}
 	}
 
 	Destroy();

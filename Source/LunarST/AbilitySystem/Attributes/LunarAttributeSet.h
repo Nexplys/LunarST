@@ -11,6 +11,8 @@ GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+struct FGameplayEffectModCallbackData;
+
 UCLASS()
 class LUNARST_API ULunarAttributeSet : public UAttributeSet
 {
@@ -29,6 +31,11 @@ public:
 
 	LUNAR_ATTRIBUTE_ACCESSORS(ULunarAttributeSet, MaxHealth)
 
+	UPROPERTY(BlueprintReadOnly, Category = "Attributes|Meta")
+	FGameplayAttributeData Damage;
+
+	LUNAR_ATTRIBUTE_ACCESSORS(ULunarAttributeSet, Damage)
+
 	UPROPERTY(BlueprintReadOnly, Category = "Attributes|Astral Energy")
 	FGameplayAttributeData AstralEnergy;
 
@@ -38,4 +45,13 @@ public:
 	FGameplayAttributeData MaxAstralEnergy;
 
 	LUNAR_ATTRIBUTE_ACCESSORS(ULunarAttributeSet, MaxAstralEnergy)
+
+	virtual void PreAttributeChange(
+		const FGameplayAttribute& Attribute,
+		float& NewValue
+	) override;
+
+	virtual void PostGameplayEffectExecute(
+		const FGameplayEffectModCallbackData& Data
+	) override;
 };
