@@ -22,7 +22,9 @@ public:
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
 	const ULunarAttributeSet* GetAttributeSet() const;
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
-	bool TryActivateAstralBolt();
+	bool TryActivatePrimarySpell();
+	UFUNCTION(BlueprintCallable, Category = "Abilities")
+	bool TryActivateSecondarySpell();
 	UFUNCTION(BlueprintCallable, Category = "Abilities")
 	bool TryActivateDodge();
 	virtual float TakeDamage(
@@ -61,5 +63,26 @@ protected:
 		BlueprintReadOnly,
 		Category = "Abilities|Startup"
 	)
-	TSubclassOf<UGameplayAbility> AstralBoltAbilityClass;
+	TSubclassOf<UGameplayAbility> PrimarySpellAbilityClass;
+	
+	UPROPERTY(
+		EditDefaultsOnly,
+		BlueprintReadOnly,
+		Category = "Abilities|Startup"
+	)
+	TSubclassOf<UGameplayAbility> SecondarySpellAbilityClass;
+
+	void HandleSiderealBladeStateChanged(
+	const FGameplayTag CallbackTag,
+	int32 NewCount
+);
+
+	UFUNCTION(
+		BlueprintImplementableEvent,
+		Category = "Astromancy|Sidereal Blade"
+	)
+	void OnSiderealBladeStateChanged(
+		bool bIsActive
+	);
+	
 };
