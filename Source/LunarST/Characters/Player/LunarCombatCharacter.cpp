@@ -31,6 +31,21 @@ void ALunarCombatCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	AbilitySystemComponent->InitAbilityActorInfo(this, this);
+	AbilitySystemComponent->RegisterGameplayTagEvent(
+		LunarGameplayTags::
+			State_Astromancy_SiderealBlade_Active,
+		EGameplayTagEventType::NewOrRemoved
+	).AddUObject(
+		this,
+		&ALunarCombatCharacter::HandleSiderealBladeStateChanged
+	);
+
+	OnSiderealBladeStateChanged(
+		AbilitySystemComponent->HasMatchingGameplayTag(
+			LunarGameplayTags::
+				State_Astromancy_SiderealBlade_Active
+		)
+	);
 	
 	if (HasAuthority())
 	{
@@ -46,15 +61,29 @@ void ALunarCombatCharacter::BeginPlay()
 			);
 		}
 
-		if (AstralBoltAbilityClass)
+		if (PrimarySpellAbilityClass)
 		{
-			const FGameplayAbilitySpec AstralBoltAbilitySpec(
-				AstralBoltAbilityClass,
+			const FGameplayAbilitySpec PrimarySpellAbilitySpec(
+				PrimarySpellAbilityClass,
 				1
 			);
 
 			AbilitySystemComponent->GiveAbility(
-				AstralBoltAbilitySpec
+				PrimarySpellAbilitySpec
+			);
+		}
+
+		if ( SecondarySpellAbilityClass &&
+			SecondarySpellAbilityClass != PrimarySpellAbilityClass
+			)
+		{
+			const FGameplayAbilitySpec SecondarySpellAbilitySpec(
+				SecondarySpellAbilityClass,
+				1
+				);
+
+			AbilitySystemComponent->GiveAbility(
+				SecondarySpellAbilitySpec
 			);
 		}
 	}
@@ -84,15 +113,27 @@ bool ALunarCombatCharacter::TryActivateDodge()
 	);
 }
 
-bool ALunarCombatCharacter::TryActivateAstralBolt()
+bool ALunarCombatCharacter::TryActivatePrimarySpell()
 {
-	if (!AbilitySystemComponent || !AstralBoltAbilityClass)
+	if (!AbilitySystemComponent || !PrimarySpellAbilityClass)
 	{
 		return false;
 	}
 
 	return AbilitySystemComponent->TryActivateAbilityByClass(
-		AstralBoltAbilityClass
+		PrimarySpellAbilityClass
+	);
+}
+
+bool ALunarCombatCharacter::TryActivateSecondarySpell()
+{
+	if (!AbilitySystemComponent || !SecondarySpellAbilityClass)
+	{
+		return false;
+	}
+
+	return AbilitySystemComponent->TryActivateAbilityByClass(
+		SecondarySpellAbilityClass
 	);
 }
 
@@ -118,5 +159,16 @@ float ALunarCombatCharacter::TakeDamage(
 		DamageEvent,
 		EventInstigator,
 		DamageCauser
+	);
+}
+
+void ALunarCombatCharacter::
+HandleSiderealBladeStateChanged(
+	const FGameplayTag CallbackTag,
+	const int32 NewCount
+)
+{
+	OnSiderealBladeStateChanged(
+		NewCount > 0
 	);
 }
